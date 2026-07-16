@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIGHTWAY ONLINE SOLUTIONS - Digital Business Card</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--color-gray-100);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px; /* Reduced for phone compatibility */
+            overflow-x: hidden;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('bg.jpg') center/cover no-repeat;
+            opacity: 0.3; /* Set visibility to 30% */
+            z-index: -1;
+            animation: bgZoom 20s infinite alternate;
+        }
+        @keyframes bgZoom {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+        .vcard-container {
+            width: 100%;
+            max-width: 420px;
+            background: var(--color-white);
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            animation: cardEntrance 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        @keyframes cardEntrance {
+            from { opacity: 0; transform: scale(0.9) translateY(30px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .vcard-header {
+            background: var(--color-white);
+            padding: 30px 20px 20px;
+            color: var(--color-navy);
+            position: relative;
+            border-bottom: 1px solid var(--color-gray-100);
+        }
+        .vcard-logo {
+            width: 80px;
+            height: 80px;
+            background: var(--color-gray-50);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            color: var(--color-accent);
+            font-size: 40px;
+            border: 1px solid var(--color-gray-200);
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .vcard-name {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            color: var(--color-navy);
+            line-height: 1.2;
+        }
+        .vcard-title {
+            font-size: 0.8rem;
+            color: var(--color-gray-600);
+            font-weight: 600;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+        .vcard-body {
+            padding: 20px 15px;
+        }
+        .vcard-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 18px 10px; /* Increased for mobile touch target */
+            background: var(--color-gray-100);
+            border-radius: 16px;
+            transition: var(--transition);
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--color-primary);
+            opacity: 0;
+            animation: btnFadeIn 0.5s ease-out forwards;
+        }
+        @keyframes btnFadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .action-btn:nth-child(1) { animation-delay: 0.1s; transform: translateY(10px); }
+        .action-btn:nth-child(2) { animation-delay: 0.2s; transform: translateY(10px); }
+        .action-btn:nth-child(3) { animation-delay: 0.3s; transform: translateY(10px); }
+        .action-btn:nth-child(4) { animation-delay: 0.4s; transform: translateY(10px); }
+        .action-btn:nth-child(5) { animation-delay: 0.5s; transform: translateY(10px); }
+        .action-btn:nth-child(6) { animation-delay: 0.6s; transform: translateY(10px); }
+
+        .action-btn:hover, .action-btn:active {
+            background: var(--color-gray-200);
+            transform: scale(0.98);
+            box-shadow: var(--shadow-sm);
+        }
+        .action-btn i {
+            font-size: 24px;
+            color: var(--color-accent);
+        }
+        .action-btn.primary {
+            grid-column: span 2;
+            background: var(--color-accent);
+            color: var(--color-white);
+            position: relative;
+            overflow: hidden;
+            font-size: 1rem;
+            padding: 20px;
+        }
+        .action-btn.primary::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255,255,255,0.2);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+        @keyframes shine {
+            0% { transform: translateX(-150%) rotate(45deg); }
+            100% { transform: translateX(150%) rotate(45deg); }
+        }
+        .action-btn.primary i {
+            color: var(--color-white);
+        }
+        .vcard-info {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .info-row i {
+            width: 20px;
+            color: var(--color-accent);
+        }
+        .info-text {
+            font-size: 0.9rem;
+            color: var(--color-gray-800);
+        }
+        .vcard-footer {
+            padding: 20px;
+            background: var(--color-gray-100);
+            font-size: 0.8rem;
+            color: var(--color-gray-600);
+        }
+        .qr-code {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        .qr-code:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="vcard-container">
+        <div class="vcard-header">
+            <img src="logo.png" alt="RIGHTWAY ONLINE SOLUTIONS Logo" style="width: 120px; height: auto; margin-bottom: 20px; animation: logoFloat 3s ease-in-out infinite;">
+            <h1 class="vcard-name">RIGHTWAY ONLINE SOLUTIONS</h1>
+            <p class="vcard-title">Vehicle Documentation & Insurance</p>
+        </div>
+        
+        <div class="vcard-body">
+            <div class="vcard-actions">
+                <a href="tel:+919539568659" class="action-btn">
+                    <i class="fa-solid fa-phone"></i>
+                    Call 1
+                </a>
+                <a href="tel:+919539332277" class="action-btn">
+                    <i class="fa-solid fa-phone-volume"></i>
+                    Call 2
+                </a>
+                <a href="https://wa.me/919539568659" class="action-btn">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    WhatsApp
+                </a>
+                <a href="mailto:rightwaynit@gmail.com" class="action-btn">
+                    <i class="fa-solid fa-envelope"></i>
+                    Email
+                </a>
+                <a href="https://share.google/jQ79bbttDeHCCgJe5" target="_blank" class="action-btn primary">
+                    <i class="fa-solid fa-location-dot"></i>
+                    View Location & Profile
+                </a>
+                <button onclick="downloadVCard()" class="action-btn primary" style="background: var(--color-navy); margin-top: -10px;">
+                    <i class="fa-solid fa-user-plus"></i>
+                    Save to Contacts
+                </button>
+            </div>
+
+            <div class="vcard-info">
+                <div class="info-row">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span class="info-text">rightwaynit@gmail.com</span>
+                </div>
+                <div class="info-row">
+                    <i class="fa-solid fa-map-marker-alt"></i>
+                    <span class="info-text">Kattangal, NIT Calicut, Kerala</span>
+                </div>
+            </div>
+
+            <div class="services-container" style="text-align: left; margin-top: 30px; border-top: 2px solid var(--color-gray-100); padding-top: 30px;">
+                <h3 style="color: var(--color-navy); margin-bottom: 20px; font-size: 1.2rem; display: flex; align-items: center; gap: 10px;">
+                    <i class="fa-solid fa-list-check" style="color: var(--color-accent);"></i>
+                    Our Services
+                </h3>
+                <ul class="services-list" style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; font-size: 0.9rem; color: var(--color-gray-800);">
+                        <i class="fa-solid fa-circle-check" style="color: var(--color-accent); margin-top: 3px; font-size: 0.8rem;"></i>
+                        <span>Vehicle Insurance</span>
+                    </li>
+                    <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; font-size: 0.9rem; color: var(--color-gray-800);">
+                        <i class="fa-solid fa-circle-check" style="color: var(--color-accent); margin-top: 3px; font-size: 0.8rem;"></i>
+                        <span>Road Tax</span>
+                    </li>
+                    <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; font-size: 0.9rem; color: var(--color-gray-800);">
+                        <i class="fa-solid fa-circle-check" style="color: var(--color-accent); margin-top: 3px; font-size: 0.8rem;"></i>
+                        <span>Welfare Fund & Vehicle Permits</span>
+                    </li>
+                    <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; font-size: 0.9rem; color: var(--color-gray-800);">
+                        <i class="fa-solid fa-circle-check" style="color: var(--color-accent); margin-top: 3px; font-size: 0.8rem;"></i>
+                        <span>PVC Card Printing (RC & Driving License)</span>
+                    </li>
+                    <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; font-size: 0.9rem; color: var(--color-gray-800);">
+                        <i class="fa-solid fa-circle-check" style="color: var(--color-accent); margin-top: 3px; font-size: 0.8rem;"></i>
+                        <span>E-Challan Payments & Court Fine Management</span>
+                    </li>
+                    <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; font-size: 0.9rem; color: var(--color-gray-800);">
+                        <i class="fa-solid fa-circle-check" style="color: var(--color-accent); margin-top: 3px; font-size: 0.8rem;"></i>
+                        <span>Driving License Renewal & Changes</span>
+                    </li>
+                    <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; font-size: 0.9rem; color: var(--color-gray-800);">
+                        <i class="fa-solid fa-circle-check" style="color: var(--color-accent); margin-top: 3px; font-size: 0.8rem;"></i>
+                        <span>Transfer of Ownership & Finance</span>
+                    </li>
+                    <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; font-size: 0.9rem; color: var(--color-gray-800);">
+                        <i class="fa-solid fa-circle-check" style="color: var(--color-accent); margin-top: 3px; font-size: 0.8rem;"></i>
+                        <span>Vehicle Fitness (CF) & Registration Renewal</span>
+                    </li>
+                    <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; font-size: 0.9rem; color: var(--color-gray-800);">
+                        <i class="fa-solid fa-circle-check" style="color: var(--color-accent); margin-top: 3px; font-size: 0.8rem;"></i>
+                        <span>FASTag Services</span>
+                    </li>
+                    <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; font-size: 0.9rem; color: var(--color-gray-800);">
+                        <i class="fa-solid fa-circle-check" style="color: var(--color-accent); margin-top: 3px; font-size: 0.8rem;"></i>
+                        <span>Re-Registration (RMA) & Alteration Permissions</span>
+                    </li>
+                    <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; font-size: 0.9rem; color: var(--color-gray-800);">
+                        <i class="fa-solid fa-circle-check" style="color: var(--color-accent); margin-top: 3px; font-size: 0.8rem;"></i>
+                        <span>Other State Permits & Special Permits</span>
+                    </li>
+                    <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; font-size: 0.9rem; color: var(--color-gray-800);">
+                        <i class="fa-solid fa-circle-check" style="color: var(--color-accent); margin-top: 3px; font-size: 0.8rem;"></i>
+                        <span>Duplicate RC Application</span>
+                    </li>
+                    <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; font-size: 0.9rem; color: var(--color-gray-800);">
+                        <i class="fa-solid fa-circle-check" style="color: var(--color-accent); margin-top: 3px; font-size: 0.8rem;"></i>
+                        <span>Fancy Number Booking</span>
+                    </li>
+                    <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; font-size: 0.9rem; color: var(--color-gray-800);">
+                        <i class="fa-solid fa-circle-check" style="color: var(--color-accent); margin-top: 3px; font-size: 0.8rem;"></i>
+                        <span>Vehicle Geology Registration</span>
+                    </li>
+                    <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; font-size: 0.9rem; color: var(--color-gray-800);">
+                        <i class="fa-solid fa-circle-check" style="color: var(--color-accent); margin-top: 3px; font-size: 0.8rem;"></i>
+                        <span>International Driving Permit (IDP)</span>
+                    </li>
+                    <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; font-size: 0.9rem; color: var(--color-gray-800);">
+                        <i class="fa-solid fa-circle-check" style="color: var(--color-accent); margin-top: 3px; font-size: 0.8rem;"></i>
+                        <span>Vehicle NOC Services</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <p style="font-size: 0.8rem; color: var(--color-gray-600); margin-top: 20px;">Scan to save contact</p>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://rightwayonline-solutionsa.web.app" alt="QR Code" class="qr-code">
+        </div>
+
+        <div class="vcard-footer">
+            <p style="font-weight: 600; margin-bottom: 5px;">"We handle all types of vehicle-related paper works."</p>
+            &copy; 2024 RIGHTWAY ONLINE SOLUTIONS
+        </div>
+    </div>
+
+    <script>
+        function downloadVCard() {
+            const vcard = `BEGIN:VCARD
+VERSION:3.0
+FN:RIGHTWAY ONLINE SOLUTIONS
+ORG:RIGHTWAY ONLINE SOLUTIONS
+TEL;TYPE=WORK,VOICE:+919539568659
+TEL;TYPE=WORK,VOICE:+919539332277
+TEL;TYPE=WORK,CELL:+919539568659
+EMAIL:rightwaynit@gmail.com
+URL:https://rightwayonline-solutionsa.web.app
+ADR;TYPE=WORK:;;Kattangal;NIT Calicut;Kerala;673601;India
+END:VCARD`;
+            
+            const blob = new Blob([vcard], { type: 'text/vcard' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'RIGHTWAY_ONLINE_SOLUTIONS.vcf';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
